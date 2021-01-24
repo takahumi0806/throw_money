@@ -148,11 +148,18 @@ name: 'users',
   mounted: function() {
     const id = firebase.auth().currentUser.uid
     const db = firebase.firestore()
+    const user = firebase.auth().currentUser;
     db.collection('user').get().then(snap => {
       const array = [];
       snap.forEach(doc => {
-        array.push(doc.data());
+        if(user.uid!=doc.data().id){
+         array.push(doc.data());
+        }
       });
+      
+           
+          
+         
       this.users = array
     });
     db.collection("user").where( "id" , "==", id ).get().then(querySnapshot  => {
