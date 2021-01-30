@@ -105,7 +105,6 @@ name: 'users',
         const userId = users.current_user[0].id
         const db = firebase.firestore()
         //投げ銭あげる側のコード
-        
         db.collection("user").where( "id" , "==", userId ).get().then(querySnapshot  => {
           const array = [];
           querySnapshot.forEach(function(doc) {
