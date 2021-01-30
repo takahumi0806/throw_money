@@ -104,27 +104,18 @@ name: 'users',
         const give_money = mymoney - gift_intger;
         const userId = users.current_user[0].id
         const db = firebase.firestore()
-
-
-        
-        return db.runTransaction(function(transaction) {
-           sfDocRef.get().then(querySnapshot  => {
-            const array = [];
-            querySnapshot.forEach(function(doc) {
-              array.push(doc.id)
-            });
-            const userRef = db.collection('user').doc(array[0])
-            userRef.update({
-              money: give_money,
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            })
+        //投げ銭あげる側のコード
+        db.collection("user").where( "id" , "==", userId ).get().then(querySnapshot  => {
+          const array = [];
+          querySnapshot.forEach(function(doc) {
+            array.push(doc.id)
+          });
+          const userRef = db.collection('user').doc(array[0])
+          userRef.update({
+            money: give_money,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
           })
         })
-
-
-
-
-        //投げ銭あげる側のコード
         //投げ銭もらう側のコード
         db.collection("user").where( "id" , "==", money.id ).get().then(querySnapshot  => {
           const array = [];
