@@ -57,7 +57,6 @@ name: 'users',
   data() {
     return {
       users: [],
-      name: firebase.auth().currentUser.displayName,
       id: '',
       current_user: [],
       modal: false,
@@ -68,10 +67,9 @@ name: 'users',
   },
   methods: {
     logOut: function () {
-      this.$router.push({ path:'Signin'})
       firebase.auth().signOut().then(() => {
      
-          
+        this.$router.push({ path:'Signin'})
       }).catch(function(error) {
         // An error happened.
         alert(error.message)
@@ -121,7 +119,7 @@ name: 'users',
         //投げ銭もらう側のコード
         db.collection("user").where( "id" , "==", money.id ).get().then(querySnapshot  => {
           const array = [];
-          querySnapshot.forEach(function(doc) {
+          querySnapshot.forEach((doc) => {
             array.push(doc.id)
           });
           const moneyRef = db.collection('user').doc(array[0])
@@ -130,7 +128,7 @@ name: 'users',
             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
           })
         })
-        const result = this.users.filter( function( value ) {
+        const result = this.users.filter((value) =>  {
             return value.id == money.id;
         })
         result[0].money = get_money
@@ -154,10 +152,6 @@ name: 'users',
          array.push(doc.data());
         }
       });
-      
-           
-          
-         
       this.users = array
     });
     db.collection("user").where( "id" , "==", id ).get().then(querySnapshot  => {
