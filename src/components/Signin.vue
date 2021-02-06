@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     signIn: function () {
-     
       firebase.auth().signInWithEmailAndPassword(this.usermail, this.password)
       .then(() => {
         this.$router.push({ path:'Dashboard'})

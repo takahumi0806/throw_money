@@ -18,7 +18,7 @@
         <tr v-for="(user, key) in users" :key="key">
           <td class="name">{{user.name}}</td>
           <td><button @click="openModal(user.id)">walletを見る</button></td>
-          <td><button @click="openSend(user.id)">送る</button></td>
+          <td><button @click="openSend(user.id)">送る</button></td>           
         </tr>
       </table>
 
@@ -29,20 +29,19 @@
         </div>
       </MyModal>
 
-    <MyModal @close="closeModal" v-if="throw_money">
-      <div v-for="(user, key) in current_user" :key="key">
-        <div>あなたの残高:{{user.money}}</div>
-      </div>
-        <p>送る金額</p>
-      <div><input v-model="gift"></div>
-      <template slot="footer">
-        <div v-for="(user, key) in money" :key="key">
-          <button @click="doSend(user,{current_user})">送信</button>
+      <MyModal @close="closeModal" v-if="throw_money">
+        <div v-for="(user, key) in current_user" :key="key">
+          <div>あなたの残高:{{user.money}}</div>
         </div>
-      </template>
-    </MyModal>
-
-
+          <p>送る金額</p>
+        <div><input v-model="gift"></div>
+        <template slot="footer">
+          <div v-for="(user, key) in money" :key="key">
+            <button @click="doSend(user,{current_user})">送信</button>
+            <button @click="open(user,{current_user})">トランザクション</button>
+          </div>
+        </template>
+      </MyModal>
     </div>
   </div>
 
@@ -66,6 +65,67 @@ name: 'users',
     }
   },
   methods: {
+    open(money,users){
+      const userId = users.current_user[0].id
+      const gift_intger = Number(this.gift)
+      const money_intger = Number(money.money)
+      const mymoney = Number(users.current_user[0].money)
+      const db = firebase.firestore()
+      const get_money = money_intger  + gift_intger;
+      const give_money = mymoney - gift_intger;
+      
+      //投げ銭あげる側のコード
+      db.collection("user").where( "id" , "==", userId ).get().then(querySnapshot  => {
+        const array = [];
+        querySnapshot.forEach(function(doc) {
+          array.push(doc.id)
+        });
+        const sfDocRef = db.collection('user').doc(array[0])
+        return db.runTransaction(function(transaction) {
+          return transaction.get(sfDocRef).then(function(sfDoc) {
+            if (Number.isInteger(gift_intger)&&Number.isInteger(money_intger)&&Number.isInteger(mymoney)) {
+              var newPopulation = sfDoc.data().money - gift_intger;
+              transaction.update(sfDocRef, {money: newPopulation,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()});
+            }
+          });
+        }).then(function() {
+            console.log("Transaction successfully committed!");
+        }).catch(function(error) {
+            console.log("Transaction failed: ", error);
+        });
+      })
+      //投げ銭もらう側のコード
+      db.collection("user").where( "id" , "==", money.id ).get().then(querySnapshot  => {
+        const array = [];
+        querySnapshot.forEach((doc) => {
+          array.push(doc.id)
+        });
+        const moneyRef = db.collection('user').doc(array[0])
+        return db.runTransaction(function(transaction) {
+          return transaction.get(moneyRef).then(function(sfDoc) {
+            if (Number.isInteger(gift_intger)&&Number.isInteger(money_intger)&&Number.isInteger(mymoney)) {
+              var newPopulation = sfDoc.data().money + gift_intger;
+              transaction.update(moneyRef, { money: newPopulation,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+            } 
+          });
+        }).then(function() {
+          console.log("Transaction successfully committed!");
+        }).catch(function(error) {
+          console.log("Transaction failed: ", error);
+        });
+      })
+      if (Number.isInteger(gift_intger)&&Number.isInteger(money_intger)&&Number.isInteger(mymoney)){
+        const result = this.users.filter((value) =>  {
+          return value.id == money.id;
+        })
+        result[0].money = get_money
+        this.current_user[0].money = give_money
+      }
+      this.gift = ''
+      this.closeModal()
+    },
     logOut: function () {
       firebase.auth().signOut().then(() => {
      
@@ -142,6 +202,7 @@ name: 'users',
   },
  
   mounted: function() {
+    //登録されているユーザーをダッシュボードに表示
     const id = firebase.auth().currentUser.uid
     const db = firebase.firestore()
     const user = firebase.auth().currentUser;
