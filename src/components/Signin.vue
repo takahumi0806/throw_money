@@ -24,11 +24,12 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.usermail, this.password)
       .then(() => {
         this.$router.push({ path:'Dashboard'})
+        this.$store.dispatch('doUser', )
       })
       .catch(error => {
         alert(error.message)
       })
     }
-  }
+  },
 }
 </script>
