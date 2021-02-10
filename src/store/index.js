@@ -29,12 +29,12 @@ const store = new Vuex.Store({
       const array = [];
       const userArray = [];
       db.collection("user").where( "id" , "==", state.current[0].id ).get().then(querySnapshot  => {
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach((doc) => {
           array.push(doc.id)
         });
         const sfDocRef = db.collection('user').doc(array[0])
-        return db.runTransaction(function(transaction) {
-          return transaction.get(sfDocRef).then(function(sfDoc) {
+        return db.runTransaction((transaction) => {
+          return transaction.get(sfDocRef).then((sfDoc) => {
             if (Number.isInteger(giftIntger)&&Number.isInteger(moneyIntger)&&Number.isInteger(idIntger)) {
               state.current[0].money=newMoney
               const newPopulation = sfDoc.data().money - giftIntger;
@@ -49,8 +49,8 @@ const store = new Vuex.Store({
           userArray.push(doc.id)
         });
         const moneyRef = db.collection('user').doc(userArray[0])
-        return db.runTransaction(function(transaction) {
-          return transaction.get(moneyRef).then(function(sfDoc) {
+        return db.runTransaction((transaction) => {
+          return transaction.get(moneyRef).then((sfDoc) => {
             if (Number.isInteger(giftIntger)&&Number.isInteger(moneyIntger)&&Number.isInteger(idIntger)) {
               const newPopulation = Number(sfDoc.data().money) + giftIntger;
               transaction.update(moneyRef, { money: newPopulation,
