@@ -22,25 +22,23 @@
         </tr>
       </table>
 
-      <MyModal @close="closeModal" v-if="modal">
+      <div v-if="modal">
         <div v-for="(user, key) in  money" :key="key">
           <p>{{user.name}}の残高</p>
           <p>{{user.money}}円</p>
         </div>
-      </MyModal>
+      </div>
 
-      <MyModal @close="closeModal" v-if="throw_money">
+      <div v-if="throw_money">
         <div v-for="(user, key) in doneCurrent" :key="key">
           <div>あなたの残高:{{user.money}}</div>
         </div>
-          <p>送る金額</p>
+        <p>送る金額</p>
         <div><input v-model="gift"></div>
-        <template slot="footer">
-          <div v-for="(user, key) in money" :key="key">
-            <button @click="doSend(user)">送信</button>
-          </div>
-        </template>
-      </MyModal>
+        <div v-for="(user, key) in money" :key="key">
+          <button @click="doSend(user)">送信</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -48,9 +46,7 @@
 
 <script>
 import firebase from 'firebase'
-import MyModal from './MyModal.vue'
 export default {
-components: {MyModal},
 name: 'users',
   data() {
     return {
@@ -76,6 +72,7 @@ name: 'users',
       });
     },
     openModal(user) {
+      this.yabuta =true
       this.throw_money = false
       this.modal = true
       const db = firebase.firestore()
