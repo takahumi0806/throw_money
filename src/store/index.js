@@ -35,7 +35,7 @@ const store = new Vuex.Store({
         const sfDocRef = db.collection('user').doc(array[0])
         return db.runTransaction((transaction) => {
           return transaction.get(sfDocRef).then((sfDoc) => {
-            if (Number.isInteger(giftIntger)&&Number.isInteger(moneyIntger)&&Number.isInteger(idIntger)) {
+            if (Number.isInteger(giftIntger) && Number.isInteger(moneyIntger) && Number.isInteger(idIntger)) {
               state.current[0].money=newMoney
               const newPopulation = sfDoc.data().money - giftIntger;
               transaction.update(sfDocRef, {money: newPopulation,
@@ -51,7 +51,7 @@ const store = new Vuex.Store({
         const moneyRef = db.collection('user').doc(userArray[0])
         return db.runTransaction((transaction) => {
           return transaction.get(moneyRef).then((sfDoc) => {
-            if (Number.isInteger(giftIntger)&&Number.isInteger(moneyIntger)&&Number.isInteger(idIntger)) {
+            if (Number.isInteger(giftIntger) && Number.isInteger(moneyIntger) && Number.isInteger(idIntger)) {
               const newPopulation = Number(sfDoc.data().money) + giftIntger;
               transaction.update(moneyRef, { money: newPopulation,
               updatedAt: firebase.firestore.FieldValue.serverTimestamp() });

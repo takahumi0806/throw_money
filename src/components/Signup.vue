@@ -29,9 +29,9 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(this.usermail, this.password)
       .then((user) => {
         user.user.updateProfile({
-          displayName:this.username
+          displayName: this.username
         });
-        var db = firebase.firestore();
+        const db = firebase.firestore();
         db.settings({
           timestampsInSnapshots: true
         });

@@ -2,8 +2,8 @@
   <div> 
     <table  align="center">
       <tr v-for="(user, key) in doneCurrent" :key="key">
-        <td class="name">{{user.name}}さんようこそ！！</td>
-        <td>残高:{{user.money}}円</td>
+        <td class="name">{{ user.name }}さんようこそ！！</td>
+        <td>残高:{{ user.money }}円</td>
         <td><button @click="logOut">ログアウト</button></td>
       </tr>
     </table>
@@ -16,27 +16,27 @@
           <th></th>
         </tr>
         <tr v-for="(user, key) in doneTodosCount" :key="key">
-          <td class="name">{{user.name}}</td>
-          <td><button @click="openModal(user.id)">walletを見る</button></td>
-          <td><button @click="openSend(user.id)">送る</button></td>           
+          <td class="name">{{ user.name }}</td>
+          <td><button @click="openUser(user)">walletを見る</button></td>
+          <td><button @click="openSend(user)">送る</button></td>           
         </tr>
       </table>
 
       <MyModal @close="closeModal" v-if="modal">
         <div v-for="(user, key) in  money" :key="key">
-          <p>{{user.name}}の残高</p>
-          <p>{{user.money}}円</p>
+          <p>{{ user.name }}の残高</p>
+          <p>{{ user.money }}円</p>
         </div>
       </MyModal>
 
       <MyModal @close="closeModal" v-if="throw_money">
         <div v-for="(user, key) in doneCurrent" :key="key">
-          <div>あなたの残高:{{user.money}}</div>
+          <div>あなたの残高:{{ user.money }}</div>
         </div>
-          <p>送る金額</p>
+        <p>送る金額</p>
         <div><input v-model="gift"></div>
         <template slot="footer">
-          <div v-for="(user, key) in money" :key="key">
+          <div v-for="(user, key) in send" :key="key">
             <button @click="doSend(user)">送信</button>
           </div>
         </template>
@@ -57,12 +57,13 @@ name: 'users',
       modal: false,
       throw_money: false,
       gift: '',
-      money:[]
+      money:[],
+      send: []
     }
   },
   methods: {
     doSend(user){
-      this.$store.dispatch('doCurrent',{gift:this.gift,id:user})
+      this.$store.dispatch('doCurrent', { gift:this.gift, id:user })
       this.gift = ''
       this.closeModal()
     },
@@ -75,13 +76,13 @@ name: 'users',
         alert(error.message)
       });
     },
-    openModal(user) {
+    openUser(user) {
       this.throw_money = false
       this.modal = true
       const db = firebase.firestore()
-      db.collection("user").where( "id" , "==", user ).get().then(querySnapshot  => {
+      db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
         const array = [];
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach((doc) => {
           array.push(doc.data());
         });
         this.money = array
@@ -91,9 +92,17 @@ name: 'users',
       this.modal = false
       this.throw_money = false
     },
-    openSend(){
+    openSend(user){
       this.modal = false
       this.throw_money = true
+      const db = firebase.firestore()
+      db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
+        const array = [];
+        querySnapshot.forEach((doc) => {
+          array.push(doc.data());
+        });
+        this.send = array
+      })
     },
   },
   computed: {
