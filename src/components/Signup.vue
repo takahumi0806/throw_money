@@ -41,7 +41,7 @@ export default {
           money: '1000'
         })
         this.$router.push({ path:'Dashboard'})
-        this.$store.dispatch('doUser', )
+        this.$store.dispatch('registrationUser', )
       })
       .catch(error => {
         alert(error.message)

@@ -49,6 +49,7 @@
 <script>
 import firebase from 'firebase'
 import MyModal from './MyModal.vue'
+import {db} from '../main.js'
 export default {
 components: {MyModal},
 name: 'users',
@@ -63,7 +64,7 @@ name: 'users',
   },
   methods: {
     doSend(user){
-      this.$store.dispatch('doCurrent', { gift:this.gift, id:user })
+      this.$store.dispatch('payMoney', { gift:this.gift, id:user })
       this.gift = ''
       this.closeModal()
     },
@@ -79,7 +80,6 @@ name: 'users',
     openUser(user) {
       this.throw_money = false
       this.modal = true
-      const db = firebase.firestore()
       db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
         const array = [];
         querySnapshot.forEach((doc) => {
@@ -95,7 +95,6 @@ name: 'users',
     openSend(user){
       this.modal = false
       this.throw_money = true
-      const db = firebase.firestore()
       db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
         const array = [];
         querySnapshot.forEach((doc) => {

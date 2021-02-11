@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
-
+import {db} from '../main.js'
 
 Vue.use(Vuex)
 
@@ -25,7 +25,6 @@ const store = new Vuex.Store({
       const moneyIntger = Number(state.current[0].money)
       const idIntger = Number(id.money)
       const newMoney = moneyIntger - giftIntger
-      const db = firebase.firestore()
       const array = [];
       const userArray = [];
       db.collection("user").where( "id" , "==", state.current[0].id ).get().then(querySnapshot  => {
@@ -62,7 +61,6 @@ const store = new Vuex.Store({
       
     },
     setUser(){
-      const db = firebase.firestore()
       const user = firebase.auth().currentUser;
       db.collection('user').get().then(snap => {
       snap.forEach(doc => {
@@ -76,8 +74,8 @@ const store = new Vuex.Store({
     }
   },
   actions: { 
-    doUser({commit},id) {commit('setUser', {id})},
-    doCurrent({commit},{gift,id}) {commit('setGift', {gift,id})}
+    registrationUser({commit},id) {commit('setUser', {id})},
+    payMoney({commit},{gift,id}) {commit('setGift', {gift,id})}
   },
 })
 
