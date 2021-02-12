@@ -1,9 +1,9 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyBszNssL4XHHtmI7qfxpPwPeilCpmmK3U0",
-  authDomain: "throw-maney.firebaseapp.com",
-  projectId: "throw-maney",
-  storageBucket: "throw-maney.appspot.com",
-  messagingSenderId: "696176826365",
-  appId: "1:696176826365:web:d430d1af3eb5e32103ab94",
-  measurementId: "G-GD5HZ8CKPW"
+  apiKey: "AIzaSyDksUMOX84gpc1i9u7E0iQXxxLMfMrF3KA",
+  authDomain: "throw-money-d3009.firebaseapp.com",
+  projectId: "throw-money-d3009",
+  storageBucket: "throw-money-d3009.appspot.com",
+  messagingSenderId: "208587504305",
+  appId: "1:208587504305:web:83c1e63b98cc96beb48090",
+  measurementId: "G-JXLY8PE2FL"
 };
