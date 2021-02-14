@@ -80,7 +80,7 @@ name: 'users',
     openUser(user) {
       this.throw_money = false
       this.modal = true
-      db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
+      db.collection("user").where( "id", "==", user.id ).get().then(querySnapshot  => {
         const array = [];
         querySnapshot.forEach((doc) => {
           array.push(doc.data());
@@ -95,7 +95,7 @@ name: 'users',
     openSend(user){
       this.modal = false
       this.throw_money = true
-      db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
+      db.collection("user").where( "id", "==", user.id ).get().then(querySnapshot  => {
         const array = [];
         querySnapshot.forEach((doc) => {
           array.push(doc.data());

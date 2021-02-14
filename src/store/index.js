@@ -12,7 +12,7 @@ const store = new Vuex.Store({
     user: []
   },
   getters: {
-    getUsers(state) {
+    getUsers(state){
       return state.user
     },
     getCrrent(state){
@@ -27,7 +27,7 @@ const store = new Vuex.Store({
       const newMoney = moneyIntger - giftIntger
       const array = [];
       const userArray = [];
-      db.collection("user").where( "id" , "==", state.current[0].id ).get().then(querySnapshot  => {
+      db.collection("user").where( "id", "==", state.current[0].id ).get().then(querySnapshot  => {
         querySnapshot.forEach((doc) => {
           array.push(doc.id)
         });
@@ -74,8 +74,8 @@ const store = new Vuex.Store({
     }
   },
   actions: { 
-    registrationUser({commit},id) {commit('setUser', {id})},
-    payMoney({commit},{gift,id}) {commit('setGift', {gift,id})}
+    registrationUser({ commit }, id) {commit('setUser', { id })},
+    payMoney({ commit },{ gift, id }) {commit('setGift', { gift, id })}
   },
 })
 

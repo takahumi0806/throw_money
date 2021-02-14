@@ -2,8 +2,8 @@
   <div class="signup">
     <h2>新規登録</h2>
     
-    <p><span>ユーザー名</span><input type="text" placeholder="Username" v-model="username"></p>
-    <p><span>メールアドレス</span><input type="text" placeholder="e-mail" v-model="usermail"></p>
+    <p><span>ユーザー名</span><input type="text" placeholder="Username" v-model="userName"></p>
+    <p><span>メールアドレス</span><input type="text" placeholder="e-mail" v-model="userMail"></p>
     <p><span>パスワード</span><input type="password" placeholder="Password" v-model="password"></p>
     <button @click="signUp">新規登録</button>
     <p>
@@ -19,17 +19,17 @@ export default {
   name: 'Signup',
   data () {
     return {
-      username: '',
-      usermail: '',
+      userName: '',
+      userMail: '',
       password: ''
     }
   },
   methods: {
     signUp: function () {
-      firebase.auth().createUserWithEmailAndPassword(this.usermail, this.password)
+      firebase.auth().createUserWithEmailAndPassword(this.userMail, this.password)
       .then((user) => {
         user.user.updateProfile({
-          displayName: this.username
+          displayName: this.userName
         });
         const db = firebase.firestore();
         db.settings({
@@ -37,7 +37,7 @@ export default {
         });
         db.collection("user").add({
           id: user.user.uid,
-          name: this.username,
+          name: this.userName,
           money: '1000'
         })
         this.$router.push({ path:'Dashboard'})
