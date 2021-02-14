@@ -1,6 +1,6 @@
 <template>
   <div> 
-    <table  align="center">
+    <table align="center">
       <tr v-for="(user, key) in doneCurrent" :key="key">
         <td class="name">{{ user.name }}さんようこそ！！</td>
         <td>残高:{{ user.money }}円</td>
