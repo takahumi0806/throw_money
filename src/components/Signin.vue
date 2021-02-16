@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     signIn() {
-      this.$store.dispatch('signIn',{ userMail:this.userMail, password:this.password })
+      this.$store.dispatch('signIn', { userMail:this.userMail, password:this.password })
       this.$router.push({ path:'Dashboard' })
     }
   },

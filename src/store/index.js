@@ -57,7 +57,7 @@ const store = new Vuex.Store({
     registrationUser({ commit }, id) {
       commit('setUser', { id })
     },
-    payMoney({ commit },{ gift, user }) {
+    payMoney({ commit }, { gift, user }) {
       const giftIntger = Number(gift)
       const idIntger = Number(user.money)
       const currentUser = firebase.auth().currentUser;
@@ -85,7 +85,7 @@ const store = new Vuex.Store({
           });
         });
       })
-      db.collection("user").where( "id" , "==", user.id ).get().then(querySnapshot  => {
+      db.collection("user").where( "id", "==", user.id ).get().then(querySnapshot  => {
         querySnapshot.forEach((doc) => {
           userArray.push(doc.id)
         });
@@ -155,7 +155,7 @@ const store = new Vuex.Store({
         querySnapshot.forEach((doc) => {
           array.push(doc.data());
         });
-        commit('setMoney',  array[0])
+        commit('setMoney', array[0])
       })
     },
     sendMoney({ commit }, user){
