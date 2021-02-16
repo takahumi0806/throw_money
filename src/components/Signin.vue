@@ -1,7 +1,7 @@
 <template>
   <div class="signup">
     <h2>ログイン</h2>
-    <p><span>メールアドレス</span><input type="text" placeholder="e-mail" v-model="usermail"></p>
+    <p><span>メールアドレス</span><input type="text" placeholder="e-mail" v-model="userMail"></p>
     <p><span>パスワード</span><input type="password" placeholder="Password" v-model="password"></p>
     <button @click="signIn">ログイン</button>
     <p>
@@ -14,13 +14,13 @@
 export default {
   data () {
     return {
-      usermail: '',
+      userMail: '',
       password: ''
     }
   },
   methods: {
     signIn() {
-      this.$store.dispatch('signIn',{ usermail:this.usermail, password:this.password })
+      this.$store.dispatch('signIn',{ userMail:this.userMail, password:this.password })
       this.$router.push({ path:'Dashboard' })
     }
   },

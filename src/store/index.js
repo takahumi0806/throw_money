@@ -132,7 +132,7 @@ const store = new Vuex.Store({
       })
     },
     signIn({ commit }, passwaord){
-      firebase.auth().signInWithEmailAndPassword(passwaord.usermail, passwaord.password)
+      firebase.auth().signInWithEmailAndPassword(passwaord.userMail, passwaord.password)
       .then(() => {
         const user = firebase.auth().currentUser;
         db.collection('user').get().then(snap => {
