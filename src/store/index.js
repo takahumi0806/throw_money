@@ -14,39 +14,39 @@ const store = new Vuex.Store({
   },
   getters: {
     getUsers(state) {
-      return state.user
+      return state.user;
     },
     getCrrent(state) {
-      return state.current
+      return state.current;
     },
     getMoney(state) {
-      return state.money
+      return state.money;
     },
     getSend(state) {
-      return state.send
+      return state.send;
     }
   },
   mutations: {
     setUser(state, user) {
-      state.user.push(user)
+      state.user.push(user);
     },
     setCurrent(state, current) {
-      state.current.push(current)
+      state.current.push(current);
     },
     setMoney(state, money) {
       if(0 == state.money.length){
-        store.state.money.push(money)
+        store.state.money.push(money);
       } else {
         state.money.splice(0, 1)
-        store.state.money.push(money)
+        store.state.money.push(money);
       }
     },
     setSend(state, money) {
       if(0 == state.send.length) {
-        state.send.push(money)
+        state.send.push(money);
       } else {
-        state.send.splice(0, 1)
-        state.send.push(money)
+        state.send.splice(0, 1);
+        state.send.push(money);
       }
     },
     changeCurrent(state, money) {
@@ -58,22 +58,22 @@ const store = new Vuex.Store({
       commit('setUser', { id })
     },
     payMoney({ commit }, { gift, user }) {
-      const giftIntger = Number(gift)
-      const idIntger = Number(user.money)
+      const giftIntger = Number(gift);
+      const idIntger = Number(user.money);
       const currentUser = firebase.auth().currentUser;
       const array = [];
       const current = [];
       const userArray = [];
       db.collection("user").where("id", "==", currentUser.uid).get().then(querySnapshot  => {
         querySnapshot.forEach((doc) => {
-          array.push(doc.id)
+          array.push(doc.id);
         });
         querySnapshot.forEach((doc) => {
-          current.push(doc.data())
+          current.push(doc.data());
         });
-        const moneyIntger = Number(current[0].money)
-        const newMoney = moneyIntger - giftIntger
-        const sfDocRef = db.collection('user').doc(array[0])
+        const moneyIntger = Number(current[0].money);
+        const newMoney = moneyIntger - giftIntger;
+        const sfDocRef = db.collection('user').doc(array[0]);
         return db.runTransaction((transaction) => {
           return transaction.get(sfDocRef).then((sfDoc) => {
             if (Number.isInteger(giftIntger) && Number.isInteger(moneyIntger) && Number.isInteger(idIntger)) {
@@ -89,8 +89,8 @@ const store = new Vuex.Store({
         querySnapshot.forEach((doc) => {
           userArray.push(doc.id)
         });
-        const moneyIntger = Number(current[0].money)
-        const moneyRef = db.collection('user').doc(userArray[0])
+        const moneyIntger = Number(current[0].money);
+        const moneyRef = db.collection('user').doc(userArray[0]);
         return db.runTransaction((transaction) => {
           return transaction.get(moneyRef).then((sfDoc) => {
             if (Number.isInteger(giftIntger) && Number.isInteger(moneyIntger) && Number.isInteger(idIntger)) {
@@ -128,7 +128,7 @@ const store = new Vuex.Store({
         });
       })
       .catch(error => {
-        console.log(error.message)
+        console.log(error.message);
       })
     },
     signIn({ commit }, passwaord){
@@ -146,7 +146,7 @@ const store = new Vuex.Store({
         });
       })
       .catch(error => {
-        console.log(error.message)
+        console.log(error.message);
       })
     },
     haveMoney({ commit }, money){
@@ -155,7 +155,7 @@ const store = new Vuex.Store({
         querySnapshot.forEach((doc) => {
           array.push(doc.data());
         });
-        commit('setMoney', array[0])
+        commit('setMoney', array[0]);
       })
     },
     sendMoney({ commit }, user){

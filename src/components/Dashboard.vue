@@ -62,18 +62,18 @@ name: 'users',
   },
   methods: {
     doSend(user) {
-      this.$store.dispatch('payMoney', { gift:this.gift, user:user })
+      this.$store.dispatch('payMoney', { gift:this.gift, user:user });
       this.gift = ''
-      this.closeModal()
+      this.closeModal();
     },
     logOut() {
       this.$store.dispatch('logOut')
-      this.$router.go({ path: '/signin', force: true })
+      this.$router.go({ path: '/signin', force: true });
     },
     openUser(money) {
       this.throwMoney = false
       this.modal = true
-      this.$store.dispatch('haveMoney', money)
+      this.$store.dispatch('haveMoney', money);
     },
     closeModal() {
       this.modal = false
@@ -82,21 +82,21 @@ name: 'users',
     openSend(user) {
       this.modal = false
       this.throwMoney = true
-      this.$store.dispatch('sendMoney', user)
+      this.$store.dispatch('sendMoney', user);
     },
   },
   computed: {
     doneTodosCount () {
-      return this.$store.getters.getUsers
+      return this.$store.getters.getUsers;
     },
     doneCurrent() {
-      return this.$store.getters.getCrrent
+      return this.$store.getters.getCrrent;
     },
     doneMoney() {
-      return this.$store.getters.getMoney
+      return this.$store.getters.getMoney;
     },
     doneSend() {
-      return this.$store.getters.getSend
+      return this.$store.getters.getSend;
     }
   },
 }

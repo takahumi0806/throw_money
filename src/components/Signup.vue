@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     signUp() {
-      this.$store.dispatch('signUp', { userMail:this.userMail, password:this.password, userName:this.userName })
-      this.$router.push({ path:'Dashboard' })
+      this.$store.dispatch('signUp', { userMail:this.userMail, password:this.password, userName:this.userName });
+      this.$router.push({ path:'Dashboard' });
     }
   }
 }
