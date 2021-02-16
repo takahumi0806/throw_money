@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 export default {
   name: 'Signup',
   data () {
@@ -25,28 +24,9 @@ export default {
     }
   },
   methods: {
-    signUp: function () {
-      firebase.auth().createUserWithEmailAndPassword(this.userMail, this.password)
-      .then((user) => {
-        user.user.updateProfile({
-          displayName: this.userName
-        });
-        const db = firebase.firestore();
-        db.settings({
-          timestampsInSnapshots: true
-        });
-        db.collection("user").add({
-          id: user.user.uid,
-          name: this.userName,
-          money: '1000'
-        })
-        this.$router.push({ path:'Dashboard'})
-        this.$store.dispatch('registrationUser', )
-      })
-      .catch(error => {
-        alert(error.message)
-      })
-      
+    signUp() {
+      this.$store.dispatch('signUp',{ userMail:this.userMail, password:this.password, userName:this.userName })
+      this.$router.push({ path:'Dashboard' })
     }
   }
 }

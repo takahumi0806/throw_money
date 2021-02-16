@@ -23,20 +23,20 @@
       </table>
 
       <MyModal @close="closeModal" v-if="modal">
-        <div v-for="(user, key) in  money" :key="key">
+        <div v-for="(user, key) in  doneMoney" :key="key">
           <p>{{ user.name }}の残高</p>
           <p>{{ user.money }}円</p>
         </div>
       </MyModal>
 
-      <MyModal @close="closeModal" v-if="throw_money">
+      <MyModal @close="closeModal" v-if="throwMoney">
         <div v-for="(user, key) in doneCurrent" :key="key">
           <div>あなたの残高:{{ user.money }}</div>
         </div>
         <p>送る金額</p>
         <div><input v-model="gift"></div>
         <template slot="footer">
-          <div v-for="(user, key) in send" :key="key">
+          <div v-for="(user, key) in doneSend" :key="key">
             <button @click="doSend(user)">送信</button>
           </div>
         </template>
@@ -47,75 +47,62 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import MyModal from './MyModal.vue'
-import {db} from '../main.js'
 export default {
-components: {MyModal},
+components: { MyModal },
 name: 'users',
   data() {
     return {
       modal: false,
-      throw_money: false,
+      throwMoney: false,
       gift: '',
       money:[],
       send: []
     }
   },
   methods: {
-    doSend(user){
-      this.$store.dispatch('payMoney', { gift:this.gift, id:user })
+    doSend(user) {
+      this.$store.dispatch('payMoney', { gift:this.gift, user:user })
       this.gift = ''
       this.closeModal()
     },
-    logOut()  {
-      firebase.auth().signOut().then(() => {
-        this.$router.push({ path:'Signin'})
-        this.$router.go(this.$router.currentRoute.path)
-      }).catch(function(error) {
-        // An error happened.
-        alert(error.message)
-      });
+    logOut() {
+      this.$store.dispatch('logOut')
+      this.$router.go({ path: '/signin', force: true })
     },
-    openUser(user) {
-      this.throw_money = false
+    openUser(money) {
+      this.throwMoney = false
       this.modal = true
-      db.collection("user").where( "id", "==", user.id ).get().then(querySnapshot  => {
-        const array = [];
-        querySnapshot.forEach((doc) => {
-          array.push(doc.data());
-        });
-        this.money = array
-      })
+      this.$store.dispatch('haveMoney', money)
     },
     closeModal() {
       this.modal = false
-      this.throw_money = false
+      this.throwMoney = false
     },
-    openSend(user){
+    openSend(user) {
       this.modal = false
-      this.throw_money = true
-      db.collection("user").where( "id", "==", user.id ).get().then(querySnapshot  => {
-        const array = [];
-        querySnapshot.forEach((doc) => {
-          array.push(doc.data());
-        });
-        this.send = array
-      })
+      this.throwMoney = true
+      this.$store.dispatch('sendMoney', user)
     },
   },
   computed: {
     doneTodosCount () {
       return this.$store.getters.getUsers
     },
-    doneCurrent(){
+    doneCurrent() {
       return this.$store.getters.getCrrent
+    },
+    doneMoney() {
+      return this.$store.getters.getMoney
+    },
+    doneSend() {
+      return this.$store.getters.getSend
     }
   },
 }
 </script>
 <style>
-  .name{
+  .name {
     width: 300px;
     text-align:left;
   }
