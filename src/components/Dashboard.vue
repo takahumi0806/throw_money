@@ -56,8 +56,6 @@ name: 'users',
       modal: false,
       throwMoney: false,
       gift: '',
-      money:[],
-      send: []
     }
   },
   methods: {

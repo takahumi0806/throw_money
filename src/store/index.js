@@ -134,6 +134,7 @@ const store = new Vuex.Store({
     signIn({ commit }, passwaord){
       firebase.auth().signInWithEmailAndPassword(passwaord.userMail, passwaord.password)
       .then(() => {
+        console.log('aaaa')
         const user = firebase.auth().currentUser;
         db.collection('user').get().then(snap => {
           snap.forEach(doc => {
