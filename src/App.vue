@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <router-view/>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <router-view />
   </div>
 </template>
-
-
 
 <style>
 #app {
@@ -29,7 +27,7 @@
   color: #42b983;
 }
 
-table{
+table {
   text-align: center;
 }
 </style>
