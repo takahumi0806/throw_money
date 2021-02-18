@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import firebase from 'firebase'
-import store from './store/index'
-import { firebaseConfig } from './config/firebase-config'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import firebase from 'firebase';
+import store from './store/index';
+import { firebaseConfig } from './config/firebase-config';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 const settings = { timestampsInSnapshots: true };
 firebase.initializeApp(firebaseConfig);
@@ -16,8 +16,5 @@ export const db = firebase.firestore();
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
-
-
-
+  render: (h) => h(App),
+}).$mount('#app');
