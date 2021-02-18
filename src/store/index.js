@@ -49,7 +49,7 @@ const store = new Vuex.Store({
         state.send.push(money);
       }
     },
-    changeCurrent(state, money) {
+    updateCurrent(state, money) {
       state.current[0].money = money;
     },
   },
@@ -84,7 +84,7 @@ const store = new Vuex.Store({
                 Number.isInteger(moneyIntger) &&
                 Number.isInteger(idIntger)
               ) {
-                commit('changeCurrent', newMoney);
+                commit('updateCurrent', newMoney);
                 const throwMoney = sfDoc.data().money - giftIntger;
                 transaction.update(sfDocRef, {
                   money: throwMoney,
